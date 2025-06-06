@@ -1,0 +1,24 @@
+<!-- Delete Confirmation Modal -->
+<div id="delete-media-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Confirm Deletion</h2>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete the selected media? This action cannot be undone.</p>
+            <div id="delete-preview" class="delete-preview"></div>
+            <div id="reference-warning" class="reference-warning" hidden>
+                <p class="warning-text">
+                    <strong>Warning:</strong>
+                    Some selected media files are used in posts or pages. References to these files will be
+                    automatically removed.
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="cancel-delete-media" class="btn btn-outline">Cancel</button>
+            <button id="confirm-delete-media" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
+</div>

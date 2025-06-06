@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{#include("components/head.html")}}
+    <body class="admin-page">
+        <div class="admin-container">
+            <button class="sidebar-toggle" aria-label="Toggle Sidebar" aria-expanded="false">☰</button>
+            <!-- Sidebar -->
+            {{#include("components/sidebar.html")}}
+
+            <!-- Main Content -->
+            <main class="admin-content">
+                <!-- Header -->
+                {{#include("components/header.html")}}
+
+                <!-- Content -->
+                {{#if dashboardIndex}}
+                <!-- Dashboard Content -->
+                {{#include("contents/dashboard.html")}}
+                <!---->
+                {{#elseif dashboardTable}}
+                <!-- Posts Content -->
+                {{#include("contents/table.html")}}
+                <!---->
+                {{#elseif dashboardEditor}}
+                <!-- Editor Content -->
+                {{#include("contents/editor.html")}}
+                <!---->
+                {{#elseif dashboardMedia}}
+                <!-- Media Library Content -->
+                {{#include("contents/media.html")}}
+                <!---->
+                {{#elseif dashboardThemes}}
+                <!-- Themes Content -->
+                {{#include("contents/themes.html")}}
+                <!---->
+                {{#elseif dashboardSettings}}
+                <!-- Settings Content -->
+                {{#include("contents/settings.html")}}
+                <!---->
+                {{#elseif dashboardUsers}}
+                <!-- Users Content -->
+                {{#include("contents/users.html")}}
+                <!---->
+                {{/if}}
+            </main>
+        </div>
+
+        <!-- Modals -->
+        {{#if dashboardTable}}
+        <!--Including delete confirmation modal for table-->
+        {{#include("partials/delete-confirmation-modal.html")}}
+        <!--Including bulk confirmation modal for table-->
+        {{#include("partials/bulk-confirmation-modal.html")}}
+        <!---->
+        {{#elseif dashboardEditor}}
+        <!--Including save confirmation modal for editor-->
+        {{#include("partials/save-confirmation-modal.html")}}
+        <!--Including media selection modal for editor-->
+        {{#include("partials/media-selection-modal.html")}}
+        <!---->
+        {{#elseif dashboardMedia}}
+        <!--Including delete confirmation modal for media-->
+        {{#include("partials/delete-media-confirmation-modal.html")}}
+        <!---->
+        {{/if}}
+
+        <script src="/core/admin/static/js/admin.js"></script>
+        {{#if dashboardTable}}
+        <script src="/core/admin/static/vendors/tabulator/tabulator.min.js"></script>
+        <script type="module" src="/core/admin/static/js/table/table.js"></script>
+        {{#elseif dashboardEditor}}
+        <script src="/core/admin/static/vendors/marked/marked.umd.min.js"></script>
+        <script type="module" src="/core/admin/static/js/editor/editor.js"></script>
+        {{#elseif dashboardMedia}}
+        <!-- Media Library JavaScript -->
+        <script type="module" src="/core/admin/static/js/media-library/media.js"></script>
+        {{#elseif dashboardThemes}}
+        <script type="module" src="/core/admin/static/js/themes-manager/themes-manager.js"></script>
+        {{#elseif dashboardSettings}}
+        <script src="/core/admin/static/vendors/sortable/sortable.min.js"></script>
+        <script type="module" src="/core/admin/static/js/menu-editor/menu-editor.js"></script>
+        <script type="module" src="/core/admin/static/js/settings/settings.js"></script>
+        {{#elseif dashboardUsers}}
+        <script type="module" src="/core/admin/static/js/users/users.js"></script>
+        {{/if}}
+    </body>
+</html>

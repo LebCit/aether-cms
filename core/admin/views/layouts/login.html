@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/core/admin/static/images/aether-favicon.svg" type="image/svg+xml" />
+        <title>Login | Aether</title>
+        <link rel="stylesheet" href="/core/admin/static/css/login.css" />
+    </head>
+    <body class="login-page">
+        <div class="login-container">
+            <div class="login-logo">
+                <img src="/core/admin/static/images/aether-login-logo.svg" alt="Aether CMS" />
+            </div>
+            <div class="login-form-container">
+                <h2>Welcome back</h2>
+                {{#if error }}
+                <div class="alert alert-danger">! {{ error }}</div>
+                {{/if}}
+                <form action="/aether/login" method="post" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required autofocus />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required />
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Log In →</button>
+                    </div>
+                </form>
+            </div>
+            <div class="login-footer">
+                <p>&copy; {{ year }} Aether Next-Gen CMS</p>
+            </div>
+        </div>
+
+        <script>
+            // Simple animation for form elements
+            document.addEventListener("DOMContentLoaded", function () {
+                const formGroups = document.querySelectorAll(".form-group")
+
+                formGroups.forEach((group, index) => {
+                    setTimeout(() => {
+                        group.style.opacity = "1"
+                        group.style.transform = "translateY(0)"
+                    }, 200 + index * 100)
+                })
+
+                // Add subtle interactive effects
+                const inputs = document.querySelectorAll("input")
+                inputs.forEach((input) => {
+                    input.addEventListener("focus", function () {
+                        this.parentElement.classList.add("active")
+                    })
+
+                    input.addEventListener("blur", function () {
+                        if (!this.value) {
+                            this.parentElement.classList.remove("active")
+                        }
+                    })
+                })
+            })
+        </script>
+    </body>
+</html>

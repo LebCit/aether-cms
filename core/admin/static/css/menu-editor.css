@@ -1,0 +1,389 @@
+/* 
+ * Menu Editor Styles
+ * Extension of settings.css for the menu tab
+ */
+
+.theme-menu-editor {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+/* Modal backdrop */
+.menu-editor-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    display: none;
+}
+
+.menu-editor-backdrop.active {
+    display: block;
+}
+
+.menu-editor-header {
+    margin-bottom: 1.5rem;
+}
+
+.menu-editor-header h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.menu-editor-toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.menu-items-container {
+    margin-bottom: 1.5rem;
+    min-height: 100px;
+}
+
+.menu-items-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    min-height: 100px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.2s;
+    cursor: move;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Add container styling */
+.menu-item-container {
+    display: flex;
+    align-items: center; /* Vertically align items */
+    width: 100%;
+    flex-wrap: wrap; /* Allows the ul.menu-items-sub-list to wrap to the next line */
+}
+
+.menu-item > .menu-items-sub-list {
+    margin-left: 2rem;
+    padding-bottom: 0.5rem;
+}
+
+/* Style for nested sub lists */
+.menu-items-sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0 2rem;
+    border-left: 1px dashed #ccd;
+    flex-basis: 100%; /* forces it to break to a new line */
+}
+
+.menu-items-sub-list > .menu-item {
+    border: 1px solid #e9ecef;
+    margin-bottom: 0.5rem;
+    border-radius: 3px;
+}
+
+.menu-items-sub-list > .menu-item:last-child {
+    margin-bottom: 0;
+}
+
+.menu-item-placeholder {
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.menu-item-handle {
+    margin-right: 0.75rem;
+    cursor: grab;
+    color: #adb5bd;
+    font-size: 1.2rem;
+}
+
+/* Indent/outdent controls */
+.menu-item-indent-controls {
+    display: flex;
+    gap: 3px;
+    margin-right: 0.75rem;
+}
+
+.menu-item-indent,
+.menu-item-outdent {
+    background: none;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    color: #6c757d;
+    font-size: 0.7rem;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.menu-item-indent:hover,
+.menu-item-outdent:hover {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.menu-item-indent:disabled,
+.menu-item-outdent:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.menu-item-content {
+    /* flex: 1; */
+    min-width: 0;
+}
+
+.menu-item-title {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.menu-item-url {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.menu-item-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+/* Styling for dragged item */
+.menu-item.sortable-chosen {
+    background-color: #e9ecef;
+    opacity: 0.8;
+}
+
+/* Placeholder styling */
+.menu-item.sortable-ghost {
+    background-color: #e6f2ff;
+    border: 1px dashed #0066cc;
+}
+
+/* Menu Item Edit Form */
+.menu-item-form-panel {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow-y: auto;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    height: 80%;
+    padding: inherit;
+    z-index: 100;
+}
+
+.menu-item-form-panel.active {
+    display: block;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    background-color: #f8f9fa;
+}
+
+/* Improved close button */
+.close-panel {
+    background: none;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-panel:hover {
+    background-color: #e0e0e0;
+}
+
+.close-panel:active {
+    background-color: #d0d0d0;
+    transform: scale(0.95);
+}
+
+.close-panel::before,
+.close-panel::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background-color: #666;
+    border-radius: 1px;
+}
+
+.close-panel::before {
+    transform: rotate(45deg);
+}
+
+.close-panel::after {
+    transform: rotate(-45deg);
+}
+
+/* Menu Item Save Button */
+#save-menu {
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#save-menu.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .menu-editor-toolbar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .menu-editor-toolbar button {
+        width: 100%;
+    }
+
+    .menu-item-form-panel {
+        width: 95%;
+        top: 10px;
+        transform: none;
+        left: 2.5%;
+        height: auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .menu-item {
+        flex-wrap: wrap;
+    }
+
+    .menu-item-indent-controls {
+        order: 1;
+    }
+
+    .menu-item-content {
+        order: 3;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .menu-item-actions {
+        order: 2;
+        margin-left: auto;
+    }
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+}
+
+.toast {
+    background-color: white;
+    border-radius: 4px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast-show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-hide {
+    opacity: 0;
+    transform: translateX(50px);
+}
+
+.toast-info {
+    border-left: 4px solid #0066cc;
+}
+
+.toast-success {
+    border-left: 4px solid #28a745;
+}
+
+.toast-warning {
+    border-left: 4px solid #ffc107;
+}
+
+.toast-error {
+    border-left: 4px solid #dc3545;
+}
+
+.toast-message {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}

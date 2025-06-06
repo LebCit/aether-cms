@@ -1,0 +1,32 @@
+<head>
+    <!--METADATA-->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--FAVICON-->
+    <link rel="icon" href="/core/admin/static/images/aether-favicon.svg" type="image/svg+xml" />
+
+    <!--TITLE-->
+    <title>{{ title | capitalize }} | Aether</title>
+
+    <!--MAIN STYLESHEET-->
+    <link rel="stylesheet" href="/core/admin/static/css/admin.css" />
+
+    <!--CONDITIONAL STYLES-->
+    {{#if dashboardTable}}
+    <link rel="stylesheet" href="/core/admin/static/vendors/tabulator/tabulator_bootstrap5.min.css" />
+    <link rel="stylesheet" href="/core/admin/static/css/table.css" />
+    {{#elseif dashboardEditor}}
+    <link rel="stylesheet" href="/core/admin/static/css/editor.css" />
+    {{#elseif dashboardMedia}}
+    <link rel="stylesheet" href="/core/admin/static/css/media.css" />
+    {{#elseif dashboardThemes}}
+    <link rel="stylesheet" href="/core/admin/static/css/themes.css" />
+    <link rel="stylesheet" href="/core/admin/static/css/marketplace.css" />
+    {{#elseif dashboardSettings}}
+    <link rel="stylesheet" href="/core/admin/static/css/settings.css" />
+    <link rel="stylesheet" href="/core/admin/static/css/menu-editor.css" />
+    {{#elseif dashboardUsers}}
+    <link rel="stylesheet" href="/core/admin/static/css/users.css" />
+    {{/if}}
+</head>

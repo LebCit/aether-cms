@@ -1,0 +1,345 @@
+/* 
+ * Users Management Styles
+ * Extension of admin.css for the user management interface
+ */
+
+/* Users Container */
+.users-container {
+    padding: 2rem;
+    position: relative;
+}
+
+/* Users Header */
+.users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.users-header h1 {
+    margin: 0;
+}
+
+.users-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.add-icon {
+    margin-right: 0.25rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* User Form Panel */
+.user-form-panel {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    display: none;
+}
+
+.user-form-panel.active {
+    display: block;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.panel-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.close-panel {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.panel-body {
+    padding: 1.5rem;
+}
+
+/* Users Table */
+.users-list-container {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    position: relative;
+    min-height: 300px;
+}
+
+.users-list-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.search-container {
+    position: relative;
+    width: 250px;
+}
+
+.search-container input {
+    padding-right: 2.5rem;
+}
+
+.search-container button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background: none;
+    border: none;
+    padding: 0 0.75rem;
+    cursor: pointer;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.users-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.users-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.role-admin {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.role-editor {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+/* User Actions */
+.user-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    padding: 0.2rem 0.3rem;
+}
+
+.action-button:hover {
+    opacity: 1;
+}
+
+.edit-button:hover {
+    color: #0066cc;
+}
+
+.delete-button:hover {
+    color: #dc3545;
+}
+
+/* Loading and Empty States */
+.loading-state,
+.empty-state {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    padding: 2rem;
+}
+
+.loading-state.hidden,
+.empty-state.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0, 102, 204, 0.3);
+    border-radius: 50%;
+    border-top-color: #0066cc;
+    animation: spin 1s ease-in-out infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #adb5bd;
+}
+
+.empty-state h3 {
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+}
+
+/* Delete Warning */
+.delete-warning {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #f8d7da;
+    border-radius: 3px;
+}
+
+.delete-warning.hidden {
+    display: none;
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+}
+
+.toast {
+    background-color: white;
+    border-radius: 4px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast-show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-hide {
+    opacity: 0;
+    transform: translateX(50px);
+}
+
+.toast-info {
+    border-left: 4px solid #0066cc;
+}
+
+.toast-success {
+    border-left: 4px solid #28a745;
+}
+
+.toast-warning {
+    border-left: 4px solid #ffc107;
+}
+
+.toast-error {
+    border-left: 4px solid #dc3545;
+}
+
+.toast-message {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .users-table th:nth-child(4),
+    .users-table td:nth-child(4) {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .users-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .users-actions {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .users-table th:nth-child(3),
+    .users-table td:nth-child(3) {
+        display: none;
+    }
+
+    .search-container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .users-container {
+        padding: 1rem;
+    }
+
+    .users-table {
+        display: block;
+        overflow-x: auto;
+    }
+}

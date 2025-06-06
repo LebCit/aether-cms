@@ -1,0 +1,54 @@
+{
+  "name": "aether-cms",
+  "version": "1.0.0",
+  "description": "A modern, elegant content management system designed for developers and content creators who value simplicity and power.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "build": "node assets/js/generate-static.js --",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "aether",
+    "aether-cms",
+    "litenode",
+    "cms",
+    "content-management",
+    "static-site-generator",
+    "ssg",
+    "markdown",
+    "nodejs",
+    "javascript",
+    "site-builder",
+    "headless",
+    "template",
+    "themes",
+    "frontend",
+    "backend",
+    "developer-tools",
+    "content-authoring"
+  ],
+  "author": {
+    "name": "LebCit",
+    "url": "https://lebcit.github.io/"
+  },
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "argon2": "^0.43.0",
+    "litenode": "^4.6.0",
+    "marked": "^15.0.11"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LebCit/aether-cms.git"
+  },
+  "homepage": "https://aether-cms.pages.dev/",
+  "bugs": {
+    "url": "https://github.com/LebCit/aether-cms/issues"
+  }
+}

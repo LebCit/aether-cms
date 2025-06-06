@@ -1,0 +1,27 @@
+{{#set itemType = tableContent === "posts" ? "post" : "page"}}
+<!-- Delete Confirmation Modal -->
+<div class="modal" id="delete-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Confirm Deletion</h2>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>
+                Are you sure you want to delete this {{itemType}}?
+                <br />
+                This action cannot be undone!
+            </p>
+            <div class="delete-warning" hidden>
+                <strong>Warning:</strong>
+                This {{itemType}} is currently
+                <span class="status-published">published</span>
+                and visible to visitors. Deleting it will remove it from your site immediately.
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancel-delete">Cancel</button>
+            <button class="btn btn-danger" id="confirm-delete">Delete</button>
+        </div>
+    </div>
+</div>

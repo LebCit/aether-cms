@@ -1,0 +1,44 @@
+<article class="single-post">
+    <header class="post-header">
+        <h1 class="post-title">{{ metadata.title }}</h1>
+        <h2>{{ metadata.subtitle }}</h2>
+        <div class="post-meta">
+            <span class="post-date">{{ metadata.createdAt | dateFormat('YYYY-MM-DD') }}</span>
+            <span class="post-author">By {{ metadata.author }}</span>
+            {{#if metadata.category}}
+            <span class="post-category">
+                In:
+                <a href="/category/{{metadata.category}}">{{metadata.category}}</a>
+            </span>
+            {{/if}}
+            <!---->
+            {{#if metadata.tags}}
+            <span class="post-tag">
+                Tagged: {{#each metadata.tags}}
+                <a href="/tag/{{this}}">{{this}}</a>
+                {{/each}}
+            </span>
+            {{/if}}
+        </div>
+    </header>
+
+    <div class="post-content">{{ content }}</div>
+
+    <footer class="post-footer">
+        <div class="post-navigation">
+            {{#if prevPost }}
+            <div class="post-prev">
+                <a href="/post/{{ prevPost.slug }}">&larr; {{ prevPost.title }}</a>
+            </div>
+            {{/if}}
+            <!---->
+            {{#if nextPost }}
+            <div class="post-next">
+                <a href="/post/{{ nextPost.slug }}">{{ nextPost.title }} &rarr;</a>
+            </div>
+            {{/if}}
+        </div>
+    </footer>
+
+    {{#if metadata.relatedPostsData}} {{#include("partials/related-posts.html")}} {{/if}}
+</article>

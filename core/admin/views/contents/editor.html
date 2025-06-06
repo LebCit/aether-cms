@@ -1,0 +1,367 @@
+<!-- 
+  Updated editor.html template with both normal and fullscreen modes predefined.
+  The fullscreen container is initially hidden and shown when needed.
+-->
+
+<div class="editor-container">
+    <div class="editor-header">
+        <h1>{{ title }}</h1>
+        <div class="editor-actions">
+            {{#if isNew}}
+            <button id="save-draft" class="btn btn-outline">Save Draft</button>
+            <button id="publish" class="btn btn-primary">Publish</button>
+            {{#else}}
+            <button id="update" class="btn btn-primary">Update</button>
+            {{#if item.status = "draft"}}
+            <button id="publish" class="btn btn-success">Publish</button>
+            {{#else}}
+            <button id="unpublish" class="btn btn-outline">Revert to Draft</button>
+            {{/if}}
+            <!---->
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="editor-body">
+        <div class="editor-main">
+            <div class="form-group" id="markdown-editor-container">
+                <label for="title">Title</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value="{{ item.title }}"
+                    placeholder="Enter title"
+                    required
+                />
+
+                <div class="form-group">
+                    <label for="subtitle">Subtitle</label>
+                    <input
+                        type="text"
+                        id="subtitle"
+                        name="subtitle"
+                        value="{{ item.subtitle }}"
+                        placeholder="Enter subtitle or tagline (optional)"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="content">Content</label>
+
+                    <!-- Normal Mode Editor -->
+                    <div id="normal-editor-wrapper">
+                        {{#include("partials/markdown-editor-toolbar.html")}}
+
+                        <!-- Tabs for Editor/Preview -->
+                        <div class="md-tabs">
+                            <button data-action="view" data-tab-content="editor" class="tab-button active">
+                                Editor
+                            </button>
+                            <button data-action="view" data-tab-content="preview" class="tab-button">
+                                Preview
+                                <span id="preview-changes-indicator" class="change-indicator hidden"></span>
+                            </button>
+                            <!-- Side-by-side is not available in normal mode -->
+                            <button data-action="fullscreen" class="view-toggle-btn" title="Toggle Fullscreen Mode">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Editor/Preview Container -->
+                        <div class="md-content-container">
+                            <div id="editor-content" class="tab-content active">
+                                <!-- The actual textarea will be moved between normal and fullscreen modes -->
+                                <textarea
+                                    id="content"
+                                    name="content"
+                                    class="content-editor"
+                                    placeholder="Write your content here..."
+                                >
+{{ item.content }}</textarea
+                                >
+                            </div>
+                            <div id="preview-content" class="tab-content">
+                                <div id="preview" class="md-preview"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="editor-sidebar">
+            <div class="sidebar-section">
+                <h3>Publishing Options</h3>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="draft" {{ item.status="draft" ? `selected` : `` }}>Draft</option>
+                        <option value="published" {{ item.status="published" ? `selected` : `` }}>Published</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="slug">Slug</label>
+                    <input type="text" id="slug" name="slug" value="{{ item.slug }}" placeholder="post-url-slug" />
+                    <p class="help-text">The URL-friendly version of the title.</p>
+                </div>
+
+                {{#if contentType === "page"}}
+                <div class="sidebar-section">
+                    <h3>Page Settings</h3>
+                    <div class="form-group">
+                        <label for="pageType">Page Type</label>
+                        <select id="pageType" name="pageType">
+                            <option value="normal" {{ item.pageType !="custom" ? `selected` : `` }}>Normal</option>
+                            <option value="custom" {{ item.pageType="custom" ? `selected` : `` }}>
+                                Custom Template
+                            </option>
+                        </select>
+                        <p class="help-text">
+                            Normal pages use the standard page layout. Custom pages use template files from the theme's
+                            "custom" directory.
+                        </p>
+                    </div>
+
+                    <!-- Parent Page Selection for Custom Pages -->
+                    <div
+                        class="form-group"
+                        id="parentPageGroup"
+                        {{item.pageType
+                        !="custom"
+                        ?
+                        `style="display: none;"
+                        `
+                        :
+                        ``}}
+                    >
+                        <label for="parentPage">Parent Page</label>
+                        <select id="parentPage" name="parentPage">
+                            <option value="">None (Top Level)</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                        <p class="help-text">
+                            Select a parent page to create nested URLs. For example, if parent is "docs", this page will
+                            be accessible at /docs/[slug].
+                        </p>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+
+            <div class="sidebar-section">
+                <h3>SEO Settings</h3>
+                <div class="form-group">
+                    <label for="seoDescription">Meta Description</label>
+                    <textarea id="seoDescription" name="seoDescription" placeholder="Description for search engines...">
+{{ item.seoDescription }}</textarea
+                    >
+                    <p class="help-text">Recommended length: 150-160 characters. Used in search results.</p>
+                    <div class="character-counter">
+                        <span id="seoDescriptionCount">0</span>
+                        /160
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Media</h3>
+
+                <!-- Featured Image Section -->
+                <div class="form-group">
+                    <label>Featured Image</label>
+                    <div id="featured-image-preview" class="featured-image-preview">
+                        {{#if item.featuredImage}}
+                        <img src="/content/uploads{{item.featuredImage.url}}" alt="{{item.featuredImage.alt}}" />
+                        <button class="remove-featured-image">Remove</button>
+                        {{#else}}
+                        <button id="select-featured-image" class="btn btn-sm btn-outline">Set Featured Image</button>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <!-- Add a helpful tip about the image button -->
+                <div class="media-help-tip">
+                    <p class="help-text">
+                        Use the image button (
+                        <span>🖼️</span>
+                        ) in the editor toolbar to insert images into your content.
+                    </p>
+                </div>
+            </div>
+
+            {{#if contentType === "post"}}
+            <!-- Related Posts Section -->
+            <div class="sidebar-section" id="relatedPostsContainer">
+                <h3>Related Posts</h3>
+                <div class="form-group">
+                    <label>Select related posts to display with this content</label>
+
+                    <!-- Related Posts List -->
+                    <div id="relatedPostsList" class="related-posts-list">
+                        <!-- Posts will be inserted here by JavaScript -->
+                        <p class="related-posts-placeholder">No related posts selected</p>
+                    </div>
+
+                    <!-- Add Related Post Button -->
+                    <div class="related-posts-actions">
+                        <button type="button" id="addRelatedPost" class="btn btn-sm btn-outline">
+                            Add Related Post
+                        </button>
+                    </div>
+
+                    <!-- Related Posts Dropdown -->
+                    <div id="relatedPostsDropdown" class="related-posts-dropdown">
+                        <div class="dropdown-header">
+                            <input
+                                type="text"
+                                id="relatedPostsSearch"
+                                placeholder="Search posts..."
+                                class="dropdown-search"
+                            />
+                        </div>
+                        <div id="relatedPostsDropdownList" class="dropdown-list">
+                            <!-- Posts options will be inserted here by JavaScript -->
+                        </div>
+                    </div>
+
+                    <p class="help-text">Select up to 5 related posts to suggest to readers.</p>
+                </div>
+            </div>
+            {{/if}}
+
+            <div class="sidebar-section">
+                <h3>Additional Settings</h3>
+
+                <!-- Date Picker Field -->
+                <div class="form-group">
+                    <label for="publishDate">Publish Date</label>
+                    <input type="datetime-local" id="publishDate" name="publishDate" value="{{ item.publishDate }}" />
+                    <p class="help-text">Schedule or backdate this content.</p>
+                </div>
+
+                {{#if contentType === "post"}}
+                <!-- Categories Field -->
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <div class="category-container">
+                        <div class="category-input-wrapper">
+                            <input type="text" id="categoryInput" placeholder="Add a category..." />
+                            <button type="button" id="addCategory" class="btn btn-sm">Add</button>
+                        </div>
+                        <div id="categoriesList" class="categories-list">
+                            <!-- Categories will be inserted here by JavaScript -->
+                        </div>
+                        <p class="help-text">Add a primary category for organizing content.</p>
+                    </div>
+                </div>
+
+                <!-- Tags Field -->
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <div class="tags-container">
+                        <div class="tags-input-wrapper">
+                            <input type="text" id="tagInput" placeholder="Add a tag..." />
+                            <button type="button" id="addTag" class="btn btn-sm">Add</button>
+                        </div>
+                        <div id="tagsList" class="tags-list">
+                            <!-- Tags will be inserted here by JavaScript -->
+                        </div>
+                        <p class="help-text">Add multiple tags to help users find related content.</p>
+                    </div>
+                </div>
+                {{/if}}
+
+                <!-- Excerpt Field -->
+                <div class="form-group">
+                    <label for="excerpt">Excerpt</label>
+                    <textarea id="excerpt" name="excerpt" placeholder="Brief summary...">{{ item.excerpt }}</textarea>
+                    <p class="help-text">A short summary of the content.</p>
+                </div>
+
+                <!-- Author Field -->
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" id="author" name="author" value="{{ item.author || user.username }}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fullscreen Mode Container (initially hidden) -->
+<div id="fullscreen-editor-container" class="md-fullscreen-mode" style="display: none">
+    <!-- Fullscreen Header -->
+    <div class="md-fullscreen-header">
+        <h3>Distraction-Free Editor</h3>
+        <button class="md-exit-fullscreen" title="Exit Fullscreen">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Fullscreen Toolbar (same as normal mode) -->
+    {{#include("partials/markdown-editor-toolbar.html")}}
+
+    <!-- Fullscreen Tabs (side-by-side is visible) -->
+    <div class="md-tabs">
+        <button data-action="view" data-tab-content="editor" class="tab-button active">Editor</button>
+        <button data-action="view" data-tab-content="preview" class="tab-button">
+            Preview
+            <span id="fs-preview-changes-indicator" class="change-indicator hidden"></span>
+        </button>
+        <!-- Full-screen is not available in fullscreen mode -->
+        <button data-action="side-by-side" class="view-toggle-btn" title="Toggle Side-by-Side View">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="12" y1="3" x2="12" y2="21"></line>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Fullscreen Editor/Preview Container -->
+    <div class="md-content-container">
+        <div id="fs-editor-content" class="tab-content active">
+            <!-- The textarea will be moved here when in fullscreen mode -->
+        </div>
+        <div id="fs-preview-content" class="tab-content">
+            <div id="fs-preview" class="md-preview"></div>
+        </div>
+    </div>
+</div>

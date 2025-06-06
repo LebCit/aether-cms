@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definitions -->
+  <defs>
+    <!-- Main gradient used across all assets -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a237e" />
+      <stop offset="100%" stop-color="#4a148c" />
+    </linearGradient>
+    
+    <!-- Glow filter for highlights -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Favicon Background -->
+  <circle cx="50" cy="50" r="50" fill="url(#bgGradient)" />
+  
+  <!-- Simplified A -->
+  <path d="M 35,70 L 50,30 L 65,70 M 40,60 L 60,60" 
+        stroke="#ffffff" 
+        stroke-width="5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        fill="none" />
+  
+  <!-- Orbital accent -->
+  <circle cx="50" cy="50" r="35" fill="none" stroke="#64ffda" stroke-width="1.5" stroke-opacity="0.7" />
+</svg>

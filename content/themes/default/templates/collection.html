@@ -1,0 +1,85 @@
+<div class="taxonomy-collection">
+    <header class="collection-header">
+        <h1 class="collection-title">
+            {{#if categoryName}}
+            <!---->
+            Category: {{ categoryName }}
+            <!---->
+            {{#elseif tagName}}
+            <!---->
+            Tag: {{ tagName }}
+            <!---->
+            {{#else}}
+            <!---->
+            {{ taxonomyType }}: {{ taxonomyTerm }}
+            <!---->
+            {{/if}}
+        </h1>
+
+        <div class="collection-description">
+            {{#if taxonomyType === 'category'}}
+            <p>
+                Browse all posts in the
+                <strong>{{ taxonomyTerm }}</strong>
+                category.
+            </p>
+            {{#elseif taxonomyType === 'tag'}}
+            <p>
+                Browse all posts tagged with
+                <strong>{{ taxonomyTerm }}</strong>
+                .
+            </p>
+            {{/if}}
+        </div>
+    </header>
+
+    <div class="collection-content">
+        {{#if posts.length === 0}}
+        <div class="no-posts-message">
+            <p>No posts found for this {{ taxonomyType }}.</p>
+        </div>
+        {{#else}}
+        <div class="post-grid">
+            {{#each posts}}
+            <article class="post-card">
+                <h2 class="post-title">
+                    <a href="/post/{{ metadata.slug }}">{{ metadata.title }}</a>
+                </h2>
+
+                <div class="post-meta">
+                    <span class="post-date">{{ metadata.createdAt | dateFormat('YYYY-MM-DD') }}</span>
+                    {{#if metadata.author}}
+                    <span class="post-author">By {{ metadata.author }}</span>
+                    {{/if}}
+                </div>
+
+                <div class="post-excerpt">
+                    {{#if metadata.excerpt}} {{ metadata.excerpt }} {{#else}} {{ content | truncate(150) }} {{/if}}
+                </div>
+
+                <a href="/post/{{ metadata.slug }}" class="read-more">Read More</a>
+            </article>
+            {{/each}}
+        </div>
+
+        {{#if pagination}}
+        <div class="pagination">
+            {{#if pagination.urls.prev}}
+            <a href="{{pagination.urls.prev}}" class="prev-page">
+                &larr; Previous Page
+            </a>
+            {{/if}}
+
+            <span class="page-info">Page {{ pagination.currentPage }} of {{ pagination.totalPages }}</span>
+
+            {{#if pagination.urls.next}}
+            <a href="{{pagination.urls.next}}" class="next-page">
+                Next Page &rarr;
+            </a>
+            {{/if}}
+        </div>
+        {{/if}}
+        <!---->
+        {{/if}}
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<main class="site-content">
+    <div class="container">
+        {{#if homeRoute}}
+        <!--#if this is the homeRoute #include "index.html" from the "templates" folder-->
+        {{#include("templates/index.html")}}
+        <!---->
+        {{#elseif fileType === "page"}}
+        <!--#elseif the file type is a page #include "page-content.html" from the "templates" folder-->
+        {{#include("templates/page-content.html")}}
+        <!---->
+        {{#elseif fileType === "post"}}
+        <!--#elseif the file type is a post #include "post-content.html" from the "templates" folder-->
+        {{#include("templates/post-content.html")}}
+        <!---->
+        {{#elseif taxonomyRoute}}
+        <!--#elseif the route is a taxonomy type #include "collection.html" from the "templates" folder-->
+        {{#include("templates/collection.html")}}
+        <!---->
+        {{#elseif notFoundRoute}}
+        <!--#elseif this is the notFoundRoute #include "404.html" from the "templates" folder-->
+        {{#include("templates/404.html")}}
+        <!---->
+        {{/if}}
+    </div>
+</main>

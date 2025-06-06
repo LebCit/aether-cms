@@ -1,0 +1,113 @@
+<div class="users-container">
+    <div class="users-header">
+        <h1>User Management</h1>
+        <div class="users-actions">
+            <button id="add-user-button" class="btn btn-primary">
+                <span class="add-icon">+</span>
+                Add New User
+            </button>
+        </div>
+    </div>
+
+    <!-- User creation/edit panel -->
+    <div id="user-form-panel" class="user-form-panel">
+        <div class="panel-header">
+            <h2 id="panel-title">Add New User</h2>
+            <button id="close-panel" class="close-panel">&times;</button>
+        </div>
+        <div class="panel-body">
+            <form id="user-form">
+                <input type="hidden" id="user-id" name="id" value="" />
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required />
+                    <p class="help-text">Username cannot be changed later.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" autocomplete="new-password" />
+                    <p class="help-text" id="password-help">Leave blank to keep current password.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role">
+                        <option value="admin">Administrator</option>
+                        <option value="editor" selected>Editor</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="cancel-form" class="btn btn-outline">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Users list -->
+    <div class="users-list-container">
+        <div class="users-list-header">
+            <div class="search-container">
+                <input type="text" id="user-search" placeholder="Search users..." />
+                <button id="search-button" class="btn btn-sm btn-outline">
+                    <span class="search-icon">🔍</span>
+                </button>
+            </div>
+        </div>
+
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+                <!-- Users will be loaded here -->
+            </tbody>
+        </table>
+
+        <div id="loading-state" class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading users...</p>
+        </div>
+
+        <div id="empty-state" class="empty-state hidden">
+            <div class="empty-icon">👥</div>
+            <h3>No Users Found</h3>
+            <p>Add new users to manage your site.</p>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal for Delete -->
+    <div id="delete-user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm User Deletion</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+                <div id="delete-warning" class="delete-warning hidden">
+                    <strong>Warning:</strong>
+                    You cannot delete the last admin user or your own account.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-delete-user" class="btn btn-outline">Cancel</button>
+                <button id="confirm-delete-user" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

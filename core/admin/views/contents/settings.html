@@ -1,0 +1,357 @@
+<!-- Settings Page Template -->
+<div class="settings-container">
+    <h1>Site Settings</h1>
+
+    <div class="settings-tabs">
+        <button class="tab-button active" data-tab="general">General</button>
+        <button class="tab-button" data-tab="appearance">Appearance</button>
+        <button class="tab-button" data-tab="content">Content</button>
+        <button class="tab-button" data-tab="advanced">Advanced</button>
+        <button class="tab-button" data-tab="menu">Menu</button>
+        <!-- Add static site tab button if user is admin -->
+        {{#if user.role === "admin"}}
+        <button class="tab-button" data-tab="static">Static Site</button>
+        {{/if}}
+    </div>
+
+    <form id="settings-form" class="settings-form">
+        <!-- General Settings Tab -->
+        <div class="tab-content active" id="general-tab">
+            <div class="settings-section">
+                <h2>Site Information</h2>
+
+                <div class="form-group">
+                    <label for="siteTitle">Site Title</label>
+                    <input type="text" id="siteTitle" name="siteTitle" value="{{ settings.siteTitle }}" required />
+                    <p class="help-text">The name of your site, displayed in the header and browser tab.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="siteDescription">Site Description</label>
+                    <textarea id="siteDescription" name="siteDescription" rows="3">
+{{ settings.siteDescription }}</textarea
+                    >
+                    <p class="help-text">A short description of your site. This may be used by search engines.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="siteUrl">Site URL</label>
+                    <input type="url" id="siteUrl" name="siteUrl" value="{{ settings.siteUrl }}" />
+                    <p class="help-text">The full URL of your site (e.g., https://example.com).</p>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>Admin Contact</h2>
+
+                <div class="form-group">
+                    <label for="adminEmail">Admin Email</label>
+                    <input type="email" id="adminEmail" name="adminEmail" value="{{ settings.adminEmail }}" />
+                    <p class="help-text">Used for system notifications and password recovery.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appearance Settings Tab -->
+        <div class="tab-content" id="appearance-tab">
+            <div class="settings-section">
+                <h2>Theme</h2>
+
+                <div class="form-group">
+                    <label for="activeTheme">Active Theme</label>
+                    <select id="activeTheme" name="activeTheme">
+                        {{#each themes}}
+                        <option value="{{ name }}" {{ name="settings.activeTheme" ? `selected` : `` }}>
+                            {{ info.title }}
+                        </option>
+                        {{/each}}
+                    </select>
+                    <p class="help-text">Select the theme for your site's front end.</p>
+                </div>
+
+                <div id="theme-preview" class="theme-preview">
+                    <h3>Theme Preview</h3>
+                    <div class="theme-preview-img">
+                        {{#if selectedTheme.info.screenshot}}
+                        <img
+                            src="/content/themes/{{ selectedTheme.name }}/{{ selectedTheme.info.screenshot }}"
+                            alt="Theme preview"
+                        />
+                        {{#else}}
+                        <img src="/core/admin/static/images/theme-placeholder.svg" alt="Theme preview" />
+                        {{/if}}
+                    </div>
+                    <div class="theme-info">
+                        <p class="theme-description">{{ selectedTheme.info.description }}</p>
+                        <p class="theme-version">Version: {{ selectedTheme.info.version }}</p>
+                        <p class="theme-author">
+                            By:
+                            <a href="{{ selectedTheme.info.authorUrl }}" target="_blank">
+                                {{ selectedTheme.info.author }}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>Customization</h2>
+
+                <div class="form-group">
+                    <label for="siteLogo">Site Logo</label>
+                    <div class="media-select-wrapper">
+                        <input type="hidden" id="siteLogo" name="siteLogo" value="{{ settings.siteLogo }}" />
+                        <div id="logo-preview" class="media-preview">
+                            {{#if settings.siteLogo}}
+                            <img src="/content/uploads{{ settings.siteLogo }}" alt="Site Logo" />
+                            <button type="button" class="remove-media">Remove</button>
+                            {{#else}}
+                            <button type="button" id="select-logo" class="select-media">Select Logo</button>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <p class="help-text">Your site logo (recommended size: 200×60 pixels).</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="siteIcon">Site Icon (Favicon)</label>
+                    <div class="media-select-wrapper">
+                        <input type="hidden" id="siteIcon" name="siteIcon" value="{{ settings.siteIcon }}" />
+                        <div id="icon-preview" class="media-preview">
+                            {{#if settings.siteIcon}}
+                            <img src="/content/uploads{{ settings.siteIcon }}" alt="Site Icon" />
+                            <button type="button" class="remove-media">Remove</button>
+                            {{#else}}
+                            <button type="button" id="select-icon" class="select-media">Select Icon</button>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <p class="help-text">Your site favicon (recommended size: 32×32 pixels).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Settings Tab -->
+        <div class="tab-content" id="content-tab">
+            <div class="settings-section">
+                <h2>Posts</h2>
+
+                <div class="form-group">
+                    <label for="postsPerPage">Posts Per Page</label>
+                    <input
+                        type="number"
+                        id="postsPerPage"
+                        name="postsPerPage"
+                        value="{{ settings.postsPerPage }}"
+                        min="1"
+                        max="50"
+                    />
+                    <p class="help-text">Number of posts to display per page on the blog.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="defaultPostAuthor">Default Post Author</label>
+                    <select id="defaultPostAuthor" name="defaultPostAuthor">
+                        {{#each users}}
+                        <option value="{{ username }}" {{ username="settings.defaultPostAuthor" ? `selected` : `` }}>
+                            {{ username }}
+                        </option>
+                        {{/each}}
+                    </select>
+                    <p class="help-text">Default author for new posts.</p>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>Comments</h2>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="enableComments" name="enableComments" {{#if
+                        settings.enableComments}}checked{{/if}}> Enable comments
+                    </label>
+                    <p class="help-text">Allow users to leave comments on your posts.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="commentModeration">Comment Moderation</label>
+                    <select id="commentModeration" name="commentModeration">
+                        <option value="none" {{ settings.commentModeration="none" ? `selected` : `` }}>
+                            No moderation
+                        </option>
+                        <option value="first-time" {{ settings.commentModeration="first-time" ? `selected` : `` }}>
+                            Moderate first-time commenters only
+                        </option>
+                        <option value="all" {{ settings.commentModeration="all" ? `selected` : `` }}>
+                            Moderate all comments
+                        </option>
+                    </select>
+                    <p class="help-text">Choose how comments should be moderated.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Settings Tab -->
+        <div class="tab-content" id="advanced-tab">
+            <div class="settings-section">
+                <h2>Performance</h2>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="enableCaching" name="enableCaching" {{#if
+                        settings.enableCaching}}checked{{/if}}> Enable page caching
+                    </label>
+                    <p class="help-text">Cache pages to improve performance.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="cacheDuration">Cache Duration (in minutes)</label>
+                    <input
+                        type="number"
+                        id="cacheDuration"
+                        name="cacheDuration"
+                        value="{{ settings.cacheDuration }}"
+                        min="5"
+                        max="1440"
+                    />
+                    <p class="help-text">How long cached pages should be stored (in minutes).</p>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>Custom Code</h2>
+
+                <div class="form-group">
+                    <label for="headerCode">Header Code</label>
+                    <textarea id="headerCode" name="headerCode" rows="5" class="code-input">
+{{ settings.headerCode }}</textarea
+                    >
+                    <p class="help-text">
+                        Custom HTML code to add to the
+                        <code>head</code>
+                        section of your site.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="footerCode">Footer Code</label>
+                    <textarea id="footerCode" name="footerCode" rows="5" class="code-input">
+{{ settings.footerCode }}</textarea
+                    >
+                    <p class="help-text">
+                        Custom HTML code to add before the closing
+                        <code>body</code>
+                        tag.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Settings Tab -->
+        <div class="tab-content" id="menu-tab">
+            <div class="settings-section">
+                <h2>Navigation Menu</h2>
+                <p>Configure the navigation menu for your site. Changes will be applied to the active theme.</p>
+
+                <!-- Include the menu editor component -->
+                {{#include("components/menu-editor.html")}}
+            </div>
+        </div>
+
+        <!-- Static Site Generation Tab -->
+        <div class="tab-content" id="static-tab">
+            <div class="settings-section">
+                <h2>Static Site Generator</h2>
+                <p>Generate a static version of your site that can be deployed to any web hosting service.</p>
+
+                <div class="form-group">
+                    <label for="staticOutputDir">Output Directory</label>
+                    <input type="text" id="staticOutputDir" name="staticOutputDir" value="_site" />
+                    <p class="help-text">The directory where the static site will be generated</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="staticBaseUrl">Base URL</label>
+                    <input type="text" id="staticBaseUrl" name="staticBaseUrl" value="/" />
+                    <p class="help-text">The base URL for the site (e.g., "/" or "/blog/")</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="staticCleanUrls" name="staticCleanUrls" checked />
+                        Use clean URLs
+                    </label>
+                    <p class="help-text">Use directory/index.html pattern instead of .html files</p>
+                </div>
+
+                <div class="static-generate-btn-wrapper">
+                    <button type="button" id="generateStaticBtn" class="btn btn-primary">Generate Static Site</button>
+                </div>
+
+                <div id="staticGeneratorStatus" class="alert alert-info mt-3" style="display: none">
+                    <span id="staticStatusMessage">Generating static site...</span>
+                    <div class="progress mt-2">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div id="staticGeneratorResult" class="alert mt-3" style="display: none"></div>
+            </div>
+        </div>
+
+        <div id="settings-form-actions" class="form-actions">
+            <button type="submit" id="save-settings" class="btn btn-primary">Save Settings</button>
+            <button type="button" id="reset-settings" class="btn btn-outline">Reset Changes</button>
+        </div>
+    </form>
+</div>
+
+<!-- Media Selection Modal -->
+<div id="media-selection-modal" class="modal">
+    <div class="modal-content media-modal-content">
+        <div class="modal-header">
+            <h2 id="media-modal-title">Select Media</h2>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="media-modal-filters">
+                <input type="text" id="modal-media-search" placeholder="Search media..." />
+                <select id="modal-media-filter">
+                    <option value="image">Images</option>
+                </select>
+            </div>
+
+            <div id="modal-media-grid" class="media-modal-grid"></div>
+
+            <div id="modal-loading" class="modal-loading">
+                <div class="spinner"></div>
+                <p>Loading media...</p>
+            </div>
+
+            <div id="modal-empty" class="modal-empty hidden">
+                <p>No media found. Upload media files in the Media Library.</p>
+                <a href="/aether/media" class="btn btn-sm btn-primary">Go to Media Library</a>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="cancel-media-selection" class="btn btn-outline">Cancel</button>
+            <button id="confirm-media-selection" class="btn btn-primary">Select</button>
+        </div>
+    </div>
+</div>
+
+<!-- Save Confirmation Modal -->
+<div class="modal" id="save-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Settings Saved</h2>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Your settings have been saved successfully.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="close-modal">OK</button>
+        </div>
+    </div>
+</div>

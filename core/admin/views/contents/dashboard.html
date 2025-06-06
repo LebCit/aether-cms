@@ -1,0 +1,77 @@
+<div class="dashboard">
+    <h1>Dashboard</h1>
+
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <div class="stat-icon">📝</div>
+            <div class="stat-content">
+                <h3>Posts</h3>
+                <p class="stat-number">{{ counts.posts }}</p>
+            </div>
+            <a href="/aether/table/posts" class="stat-action">Manage</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📄</div>
+            <div class="stat-content">
+                <h3>Pages</h3>
+                <p class="stat-number">{{ counts.pages }}</p>
+            </div>
+            <a href="/aether/table/pages" class="stat-action">Manage</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">👤</div>
+            <div class="stat-content">
+                <h3>Users</h3>
+                <p class="stat-number">{{ counts.users }}</p>
+            </div>
+            <a href="/aether/users" class="stat-action">Manage</a>
+        </div>
+    </div>
+
+    <div class="dashboard-quick-actions">
+        <h2>Quick Actions</h2>
+        <div class="actions-grid">
+            <a href="/aether/posts/edit" class="action-card">
+                <span class="action-icon">➕</span>
+                <span class="action-text">Add New Post</span>
+            </a>
+
+            <a href="/aether/pages/edit" class="action-card">
+                <span class="action-icon">➕</span>
+                <span class="action-text">Add New Page</span>
+            </a>
+
+            <a href="/aether/media" class="action-card">
+                <span class="action-icon">🖼️</span>
+                <span class="action-text">Upload Media</span>
+            </a>
+
+            <a href="/aether/settings" class="action-card">
+                <span class="action-icon">⚙️</span>
+                <span class="action-text">Update Settings</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="dashboard-site-info">
+        <h2>Site Information</h2>
+        <div class="info-card">
+            <div class="info-row">
+                <div class="info-label">Site Title:</div>
+                <div class="info-value">{{ site.siteTitle }}</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">Description:</div>
+                <div class="info-value">{{ site.siteDescription }}</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">Active Theme:</div>
+                <div class="info-value">{{ site.activeTheme }}</div>
+            </div>
+        </div>
+    </div>
+</div>

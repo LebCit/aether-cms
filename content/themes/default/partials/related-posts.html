@@ -1,0 +1,108 @@
+<style>
+    /* Related Posts Styling */
+    .related-posts {
+        margin-top: 2.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #eee;
+    }
+
+    .related-posts h3 {
+        margin-bottom: 1.5rem;
+        font-size: 1.4rem;
+    }
+
+    .related-posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .related-post-card {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .related-post-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .related-post-image {
+        display: block;
+        width: 100%;
+        height: 160px;
+        overflow: hidden;
+    }
+
+    .related-post-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .related-post-card:hover .related-post-image img {
+        transform: scale(1.05);
+    }
+
+    .related-post-content {
+        padding: 1rem;
+    }
+
+    .related-post-content h4 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+        line-height: 1.4;
+    }
+
+    .related-post-content h4 a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .related-post-content h4 a:hover {
+        color: #0066cc;
+    }
+
+    .related-post-excerpt {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+        .related-posts-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .related-post-image {
+            height: 200px;
+        }
+    }
+</style>
+
+<section class="related-posts">
+    <h3>You Might Also Like</h3>
+    <div class="related-posts-grid">
+        {{#each metadata.relatedPostsData}}
+        <div class="related-post-card">
+            {{#if featuredImage}}
+            <a href="/post/{{slug}}" class="related-post-image">
+                <img src="/content/uploads{{featuredImage.url}}" alt="Featured image for the post: {{title}}" />
+            </a>
+            {{/if}}
+
+            <div class="related-post-content">
+                <h4><a href="/post/{{slug}}">{{title}}</a></h4>
+                {{#if excerpt}}
+                <p class="related-post-excerpt">{{excerpt}}</p>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</section>

@@ -1,0 +1,11 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect x="50" y="50" width="700" height="80" rx="5" fill="#dbe2ef"/>
+  <rect x="50" y="160" width="500" height="30" rx="5" fill="#dbe2ef"/>
+  <rect x="50" y="210" width="700" height="150" rx="5" fill="#dbe2ef"/>
+  <rect x="50" y="380" width="330" height="170" rx="5" fill="#dbe2ef"/>
+  <rect x="400" y="380" width="350" height="170" rx="5" fill="#dbe2ef"/>
+  <text x="400" y="300" font-family="Arial, sans-serif" font-size="40" text-anchor="middle" fill="#95a5a6">Theme Preview</text>
+  <text x="400" y="340" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#95a5a6">No screenshot available</text>
+</svg>

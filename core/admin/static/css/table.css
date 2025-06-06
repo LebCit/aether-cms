@@ -1,0 +1,366 @@
+/* 
+ * Posts Management Styles with Tabulator
+ * Extension of admin.css for the posts management interface
+ */
+
+/* Posts Container */
+.table-container {
+    padding: 2rem;
+}
+
+/* Posts Header */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.table-header h1 {
+    margin: 0;
+}
+
+.table-header .header-actions {
+    gap: 0.75rem;
+}
+
+.add-icon {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-right: 0.25rem;
+}
+
+/* Bulk Actions */
+.bulk-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.bulk-actions select {
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    min-width: 180px;
+}
+
+/* Tabulator Custom Styling */
+.tabulator-paginator {
+    flex-grow: 0 !important;
+}
+
+.tabulator-paginator > label {
+    margin-bottom: inherit;
+    font-weight: inherit;
+}
+
+.tabulator-paginator > select {
+    width: inherit;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status-published {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-draft {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+/* Page Type Badges */
+.page-type-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.page-type-normal {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.page-type-custom {
+    background-color: #cce7ff;
+    color: #0066cc;
+    cursor: help;
+}
+
+/* Post Actions */
+.action-button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    padding: 0.2rem 0.3rem;
+    margin: 0 0.1rem;
+}
+
+.action-button:hover {
+    opacity: 1;
+}
+
+.edit-button:hover {
+    color: #0066cc;
+}
+
+.view-button:hover {
+    color: #17a2b8;
+}
+
+.delete-button:hover {
+    color: #dc3545;
+}
+
+/* Pagination Styling */
+.tabulator-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+    padding: 0.5rem;
+}
+
+.tabulator-paginator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.tabulator-page {
+    margin: 0 2px;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.tabulator-page:not(.disabled):hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+
+.tabulator-page.active {
+    background-color: #0066cc;
+    color: #fff;
+    border-color: #0066cc;
+}
+
+.tabulator-pages {
+    margin: 0 0.5rem;
+}
+
+.tabulator-size-select {
+    margin-left: 0.5rem;
+    height: 1.8rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .table-header .header-actions {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .bulk-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .bulk-actions select,
+    .bulk-actions button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .table-container {
+        padding: 1rem;
+    }
+
+    .table-header .header-actions {
+        flex-direction: column;
+    }
+
+    .table-header .header-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Additional styles for improved UI */
+
+/* Bulk operation status indicator */
+.bulk-status {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity 0.3s;
+}
+
+.bulk-status.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.status-content {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.status-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(0, 102, 204, 0.3);
+    border-radius: 50%;
+    border-top-color: #0066cc;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.status-message {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Toast notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+}
+
+.toast {
+    background-color: white;
+    border-radius: 4px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast-show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-hide {
+    opacity: 0;
+    transform: translateX(50px);
+}
+
+.toast-info {
+    border-left: 4px solid #0066cc;
+}
+
+.toast-success {
+    border-left: 4px solid #28a745;
+}
+
+.toast-warning {
+    border-left: 4px solid #ffc107;
+}
+
+.toast-error {
+    border-left: 4px solid #dc3545;
+}
+
+.toast-message {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+/* Delete status within modal */
+.delete-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.delete-status::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 102, 204, 0.3);
+    border-radius: 50%;
+    border-top-color: #0066cc;
+    animation: spin 1s linear infinite;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+/* Delete warning styling */
+.delete-warning {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #fff3f3;
+    border-left: 4px solid #f44336;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}

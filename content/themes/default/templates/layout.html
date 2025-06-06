@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!--Including head.html-->
+    <!--@see: https://litenode.pages.dev/docs/rendering-templates/#include-->
+    {{#include("partials/head.html")}}
+
+    <body>
+        <!--Including header.html-->
+        {{#include("partials/header.html")}}
+
+        <!--Including main.html-->
+        {{#include("partials/main.html")}}
+
+        <!--Including footer.html-->
+        {{#include("partials/footer.html")}}
+
+        <!--Loading Default Theme Scripts Using Absolute Path-->
+        <!--@see: https://litenode.pages.dev/docs/serving-static-files/-->
+        <script src="/content/themes/default/assets/js/main.js"></script>
+
+        <!-- Admin bar -->
+        {{aetherBar}}
+    </body>
+</html>

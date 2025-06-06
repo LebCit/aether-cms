@@ -1,0 +1,167 @@
+<div class="media-container">
+    <div class="media-header">
+        <h1>Media Library</h1>
+        <div class="media-actions">
+            <div class="search-container">
+                <input type="text" id="media-search" placeholder="Search media..." />
+                <button id="search-button" class="btn btn-sm btn-outline">
+                    <span class="search-icon">🔍</span>
+                </button>
+            </div>
+            <div class="media-filters">
+                <select id="media-filter-type">
+                    <option value="all">All Types</option>
+                    <option value="image">Images</option>
+                    <option value="document">Documents</option>
+                </select>
+                <select id="media-sort">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="name">Name A-Z</option>
+                    <option value="size">Size</option>
+                </select>
+            </div>
+            <button id="upload-button" class="btn btn-primary">
+                <span class="upload-icon">+</span>
+                Upload Media
+            </button>
+        </div>
+    </div>
+
+    <!-- Upload Panel - Initially Hidden -->
+    <div id="upload-panel" class="upload-panel">
+        <div class="upload-panel-header">
+            <h2>Upload Media</h2>
+            <button id="close-upload" class="close-panel">&times;</button>
+        </div>
+        <div class="upload-panel-body">
+            <div class="upload-area">
+                <input type="file" id="media-file-input" multiple class="file-input" />
+                <label for="media-file-input" class="file-input-label">
+                    <div class="upload-icon-large">📁</div>
+                    <div class="upload-text">
+                        <strong>Choose files</strong>
+                        or drag them here
+                    </div>
+                </label>
+            </div>
+
+            <div id="upload-preview" class="upload-preview">
+                <p>No files selected</p>
+            </div>
+
+            <div class="upload-options">
+                <div class="form-group">
+                    <label for="alt-text-default">Default Alt Text</label>
+                    <input type="text" id="alt-text-default" placeholder="Brief description of image(s)" />
+                    <p class="help-text">
+                        Will be applied to all uploaded images. You can edit individual images later.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="upload-panel-footer">
+            <button id="cancel-upload" class="btn btn-outline">Cancel</button>
+            <button id="start-upload" class="btn btn-primary">Upload Files</button>
+        </div>
+    </div>
+
+    <!-- Gallery Stats -->
+    <div class="gallery-stats">
+        <div class="stat-item">
+            <span id="total-items">0</span>
+            items
+        </div>
+        <div class="stat-item">
+            <span id="selected-items">0</span>
+            selected
+        </div>
+        <div id="bulk-actions" class="bulk-actions hidden">
+            <button id="deselect-all" class="btn btn-sm">Deselect All</button>
+            <button id="delete-selected" class="btn btn-sm btn-danger">Delete Selected</button>
+        </div>
+    </div>
+
+    <!-- Gallery Container -->
+    <div class="gallery-container">
+        <div id="media-grid" class="media-grid">
+            <!-- Media items will be loaded here dynamically -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state hidden">
+            <div class="empty-icon">📁</div>
+            <h3>No Media Found</h3>
+            <p>Upload media files to get started.</p>
+            <button id="empty-upload-button" class="btn btn-primary">Upload Media</button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading media...</p>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div id="media-pagination" class="media-pagination">
+        <!-- Pagination will be generated here -->
+    </div>
+
+    <!-- Media Details Sidebar - Initially Hidden -->
+    <div id="media-sidebar" class="media-sidebar" role="dialog" aria-labelledby="sidebar-title" aria-modal="false">
+        <div class="sidebar-header">
+            <h3>Media Details</h3>
+            <button id="close-sidebar" class="close-sidebar" aria-label="Close media details">&times;</button>
+        </div>
+        <div class="sidebar-content">
+            <div id="media-preview" class="media-preview"></div>
+
+            <div class="media-details-form">
+                <div class="form-group">
+                    <label for="media-filename">Filename</label>
+                    <input type="text" id="media-filename" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label for="media-alt">Alt Text</label>
+                    <input type="text" id="media-alt" placeholder="Describe this image" />
+                    <p class="help-text">Helps with accessibility and SEO.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="media-caption">Caption</label>
+                    <textarea id="media-caption" placeholder="Optional caption for the image"></textarea>
+                </div>
+
+                <div class="media-metadata">
+                    <div class="metadata-item">
+                        <span class="metadata-label">Type:</span>
+                        <span id="media-type" class="metadata-value"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Size:</span>
+                        <span id="media-size" class="metadata-value"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Dimensions:</span>
+                        <span id="media-dimensions" class="metadata-value"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Uploaded:</span>
+                        <span id="media-date" class="metadata-value"></span>
+                    </div>
+                </div>
+
+                <div class="usage-info">
+                    <h4>Usage</h4>
+                    <p id="media-usage">Not currently used in any posts or pages.</p>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <button id="update-media" class="btn btn-primary">Save Changes</button>
+            <button id="delete-media" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
+</div>

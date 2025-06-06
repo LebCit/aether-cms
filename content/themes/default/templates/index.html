@@ -1,0 +1,31 @@
+<div class="home-page">
+    <section class="hero">
+        <h1>Welcome to {{ site.siteTitle }}</h1>
+        <p>{{ site.siteDescription }}</p>
+    </section>
+
+    <section class="recent-posts">
+        <h2>Recent Posts</h2>
+
+        <div class="post-grid">
+            {{#each posts }}
+            <article class="post-card">
+                <h3><a href="/post/{{ metadata.slug }}">{{ metadata.title }}</a></h3>
+                <div class="post-meta">
+                    <span class="post-date">{{ metadata.createdAt | dateFormat('YYYY-MM-DD') }}</span>
+                    <span class="post-author">By {{ metadata.author }}</span>
+                </div>
+                <div class="post-excerpt">
+                    {{#if metadata.subtitle}}
+                    <h4>{{metadata.subtitle}}</h4>
+                    {{#else}}
+                    <div>{{metadata.excerpt || (content | truncate(50))}}</div>
+
+                    {{/if}}
+                </div>
+                <a href="/post/{{ metadata.slug }}" class="read-more">Read More</a>
+            </article>
+            {{/each}}
+        </div>
+    </section>
+</div>

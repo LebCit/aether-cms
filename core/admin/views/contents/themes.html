@@ -1,0 +1,411 @@
+<div class="themes-container">
+    <div class="themes-header">
+        <h1>Theme Management</h1>
+        <div class="themes-actions">
+            <button id="upload-theme-button" class="btn btn-primary">
+                <span class="upload-icon">+</span>
+                Upload Theme
+            </button>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="themes-tab-nav">
+        <button class="tab-btn active" data-tab="installed">Installed Themes</button>
+        <button class="tab-btn" data-tab="marketplace">Marketplace</button>
+    </div>
+
+    <!-- Upload Panel - Initially Hidden -->
+    <div id="upload-theme-panel" class="upload-panel">
+        <div class="upload-panel-header">
+            <h2>Upload Theme</h2>
+            <button id="close-upload" class="close-panel">&times;</button>
+        </div>
+        <div class="upload-panel-body">
+            <div class="upload-area">
+                <input type="file" id="theme-file-input" accept=".zip" class="file-input" />
+                <label for="theme-file-input" class="file-input-label">
+                    <div class="upload-icon-large">📦</div>
+                    <div class="upload-text">
+                        <strong>Choose theme package</strong>
+                        or drag it here
+                    </div>
+                </label>
+            </div>
+
+            <div id="upload-preview" class="upload-preview">
+                <p>No theme package selected</p>
+            </div>
+
+            <div class="upload-info">
+                <p class="help-text">
+                    Theme packages must be in
+                    <strong>.zip</strong>
+                    format and include a valid
+                    <strong>theme.json</strong>
+                    file.
+                </p>
+            </div>
+        </div>
+        <div class="upload-panel-footer">
+            <button id="cancel-upload" class="btn btn-outline">Cancel</button>
+            <button id="start-upload" class="btn btn-primary">Upload Theme</button>
+        </div>
+    </div>
+
+    <!-- Installed Themes Content -->
+    <div id="installed-themes-content" class="themes-tab-content">
+        <!-- Theme Grid -->
+        <div class="themes-grid" id="themes-grid">
+            {{#each themes}}
+            <div class="theme-card {{#if name === activeTheme}}active{{/if}}" data-theme-name="{{name}}">
+                <div class="theme-preview">
+                    <div class="theme-screenshot">
+                        {{#if info.screenshot}}
+                        <img src="/content/themes/{{name}}/{{info.screenshot}}" alt="{{info.title}} screenshot" />
+                        {{#else}}
+                        <div class="no-screenshot">
+                            <span>No Preview</span>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{#if name === activeTheme}}
+                    <div class="theme-badge">Active</div>
+                    {{/if}}
+                    <!-- New update badge - initially hidden -->
+                    <div class="theme-update-badge" style="display: none">Update Available</div>
+                </div>
+                <div class="theme-info">
+                    <h3 class="theme-title">{{info.title}}</h3>
+                    <div class="theme-meta">
+                        <span class="theme-version">v{{info.version}}</span>
+                        <span class="theme-author">By {{info.author}}</span>
+                        <!-- New update indicator -->
+                        <span class="theme-version-update" style="display: none">
+                            → v
+                            <span class="new-version"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        <!-- Empty State -->
+        {{#if themes.length === 0}}
+        <div id="empty-state" class="empty-state">
+            <div class="empty-icon">🎨</div>
+            <h3>No Themes Found</h3>
+            <p>Upload a theme package to get started.</p>
+            <button id="empty-upload-button" class="btn btn-primary">Upload Theme</button>
+        </div>
+        {{/if}}
+    </div>
+
+    <!-- Marketplace Content -->
+    <div id="marketplace-content" class="themes-tab-content hidden">
+        <div class="marketplace-container">
+            <div class="marketplace-header">
+                <div class="marketplace-controls">
+                    <div class="search-container">
+                        <input type="search" id="marketplace-search" placeholder="Search themes..." />
+                        <button class="btn btn-icon search-btn">🔍</button>
+                    </div>
+
+                    <select id="marketplace-category" class="category-select">
+                        <option value="">All Categories</option>
+                    </select>
+
+                    <select id="marketplace-sort" class="sort-select">
+                        <option value="date">Recently Updated</option>
+                        <option value="name">Name</option>
+                        <option value="version">Version</option>
+                    </select>
+
+                    <button id="refresh-marketplace" class="btn btn-outline">Refresh</button>
+                </div>
+
+                <div class="marketplace-stats">
+                    <span id="themes-count">Loading themes...</span>
+                </div>
+            </div>
+
+            <div id="marketplace-loading" class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading themes from marketplace...</p>
+            </div>
+
+            <div id="marketplace-error" class="error-state hidden">
+                <p>Failed to load themes. Please try again.</p>
+                <button class="btn btn-primary retry-btn">Retry</button>
+            </div>
+
+            <div id="marketplace-themes-grid" class="marketplace-grid">
+                <!-- Themes will be populated here -->
+            </div>
+
+            <div id="marketplace-empty" class="empty-state hidden">
+                <div class="empty-icon">🔍</div>
+                <h3>No themes found</h3>
+                <p>Try adjusting your search or filters.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Sidebar Overlay -->
+    <div id="theme-sidebar-overlay" class="theme-sidebar-overlay"></div>
+
+    <!-- Theme Sidebar - Initially Hidden -->
+    <div id="theme-sidebar" class="theme-sidebar">
+        <div class="sidebar-header">
+            <h3>Theme Details</h3>
+            <button id="close-sidebar" class="close-sidebar">&times;</button>
+        </div>
+        <div id="sidebar-content" class="sidebar-content">
+            <div id="theme-preview" class="theme-full-preview"></div>
+
+            <div class="theme-details">
+                <h2 id="sidebar-theme-title"></h2>
+                <p id="sidebar-theme-description" class="theme-description"></p>
+
+                <div class="theme-meta-full">
+                    <div class="meta-item">
+                        <span class="meta-label">Version:</span>
+                        <span id="sidebar-theme-version" class="meta-value"></span>
+                        <!-- New update indicator in sidebar -->
+                        <span id="sidebar-update-available" class="sidebar-update-info" style="display: none">
+                            <span class="update-available-text">Update available:</span>
+                            <span id="sidebar-new-version" class="new-version"></span>
+                        </span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Author:</span>
+                        <span id="sidebar-theme-author" class="meta-value"></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Features:</span>
+                        <div id="sidebar-theme-features" class="meta-value features-list"></div>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Tags:</span>
+                        <div id="sidebar-theme-tags" class="meta-value tags-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <div class="theme-actions">
+                <div id="theme-status-message" class="theme-status"></div>
+                <div class="action-buttons">
+                    <button id="activate-theme" class="btn btn-primary">Activate Theme</button>
+                    <button id="update-theme" class="btn btn-success" style="display: none">Update Theme</button>
+                    <button id="delete-theme" class="btn btn-danger">Delete Theme</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-theme-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Theme Deletion</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this theme? This action cannot be undone.</p>
+                <div id="delete-theme-warning"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-delete-theme" class="btn btn-outline">Cancel</button>
+                <button id="confirm-delete-theme" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Marketplace Theme Modal with update functionality -->
+    <div id="marketplace-theme-modal" class="marketplace-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-theme-title">Theme Details</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+
+            <!-- New: Theme Status Bar -->
+            <div class="theme-status-bar">
+                <div class="theme-installation-status">
+                    <div class="status-indicator" id="modal-status-indicator"></div>
+                    <span id="modal-installation-status">Not Installed</span>
+                </div>
+                <div class="version-info">
+                    <span id="modal-version-info">
+                        Latest: v
+                        <span id="modal-latest-version"></span>
+                    </span>
+                    <span id="modal-current-version-info" style="display: none">
+                        • Installed: v
+                        <span id="modal-current-version"></span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="theme-preview-large">
+                    <img id="modal-theme-screenshot" alt="Theme preview" />
+                </div>
+
+                <div class="theme-details-full">
+                    <p id="modal-theme-description"></p>
+
+                    <!-- Changelog preview for updates -->
+                    <div id="changelog-preview-container" style="display: none">
+                        <div class="changelog-preview">
+                            <h4>
+                                What's New in this Update
+                                <button class="changelog-toggle" id="toggle-full-changelog">Show More</button>
+                            </h4>
+                            <ul id="changelog-preview-list">
+                                <!-- Changelog items will be populated here -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="theme-metadata">
+                        <div class="meta-item">
+                            <span>Version:</span>
+                            <span id="modal-theme-version"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span>Author:</span>
+                            <span id="modal-theme-author"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span>Last Updated:</span>
+                            <span id="modal-theme-updated"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span>License:</span>
+                            <span id="modal-theme-license"></span>
+                        </div>
+                    </div>
+
+                    <div class="theme-features">
+                        <h4>Features</h4>
+                        <div id="modal-theme-features" class="features-list"></div>
+                    </div>
+
+                    <div class="theme-tags">
+                        <h4>Tags</h4>
+                        <div id="modal-theme-tags" class="tags-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="modal-footer-left">
+                    <div class="version-comparison-mini" id="modal-version-comparison" style="display: none">
+                        Updating from v
+                        <span id="modal-from-version"></span>
+                        to v
+                        <span id="modal-to-version"></span>
+                    </div>
+                </div>
+                <div class="modal-footer-right">
+                    <button id="modal-close-btn" class="btn btn-outline">Close</button>
+                    <button id="modal-install-btn" class="btn btn-primary">Install Theme</button>
+                    <button id="marketplace-modal-update-btn" class="btn btn-primary" style="display: none">
+                        Update Theme
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading indicator overlay for checking updates -->
+    <div class="marketplace-checking-updates" id="marketplace-checking-updates">
+        <div class="spinner-sm"></div>
+        <span>Checking for updates...</span>
+    </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container"></div>
+
+<!-- Enhanced Theme Card Template for Marketplace with update indicators -->
+<template id="marketplace-theme-card-template">
+    <div class="marketplace-theme-card" data-theme-name="">
+        <div class="theme-preview">
+            <img src="" alt="" loading="lazy" />
+            <!-- Update indicator badge -->
+            <div class="marketplace-update-badge" style="display: none">Update Available</div>
+            <!-- Installed indicator badge -->
+            <div class="marketplace-installed-badge" style="display: none">Installed</div>
+            <div class="theme-overlay">
+                <button class="btn preview-btn">View Details</button>
+            </div>
+        </div>
+
+        <div class="theme-info">
+            <h3 class="theme-title"></h3>
+            <p class="theme-description"></p>
+
+            <div class="theme-meta">
+                <span class="version"></span>
+                <span class="author"></span>
+                <span class="updated"></span>
+                <!-- Version update indicator for marketplace -->
+                <span class="theme-version-update" style="display: none">
+                    Update from v
+                    <span class="current-version"></span>
+                </span>
+            </div>
+
+            <div class="theme-tags">
+                <!-- Tags will be added dynamically -->
+            </div>
+        </div>
+    </div>
+</template>
+
+<!-- Update Notification Template -->
+<template id="update-notification-template">
+    <div class="update-notification">
+        <div class="notification-content">
+            <span class="notification-icon">🔄</span>
+            <span class="notification-text"></span>
+            <button class="notification-action">View Updates</button>
+        </div>
+    </div>
+</template>
+
+<!-- Theme Update Confirmation Modal -->
+<div id="theme-update-modal" class="update-confirmation-modal">
+    <div class="update-modal-content">
+        <div class="update-modal-header">
+            <h2 id="update-modal-title">Update Theme</h2>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="update-modal-body">
+            <p>A new version of this theme is available.</p>
+            <div class="version-comparison">
+                <span>
+                    Current: v
+                    <span id="current-version"></span>
+                </span>
+                <span class="version-arrow">→</span>
+                <span>
+                    New: v
+                    <span id="new-version"></span>
+                </span>
+            </div>
+            <div class="changelog-section">
+                <h4>What's New</h4>
+                <p>View the latest features and improvements in this update.</p>
+            </div>
+        </div>
+        <div class="update-modal-footer">
+            <button id="cancel-update" class="btn btn-outline">Cancel</button>
+            <button id="confirm-update" class="btn btn-success">Update Theme</button>
+        </div>
+    </div>
+</div>

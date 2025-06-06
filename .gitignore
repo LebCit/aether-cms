@@ -1,0 +1,26 @@
+# Static site folder
+_site
+
+# Editor folders
+.vscode/
+
+# Cache folder
+/content/cache/
+
+# User data
+/content/data/
+
+# Ignore everything in content/themes
+content/themes/*
+
+# But do not ignore the default folder
+!content/themes/default
+
+# User uploads
+/content/uploads/
+
+# Node modules
+node_modules
+
+# Environment Variables
+.env

@@ -1,0 +1,353 @@
+/* 
+ * Settings Page Styles
+ * Extension of admin.css for the settings interface
+ */
+
+/* Settings Container */
+.settings-container {
+    padding: 2rem;
+}
+
+.settings-container h1 {
+    margin-bottom: 2rem;
+}
+
+/* Tabs */
+.settings-tabs {
+    display: flex;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.tab-button {
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #495057;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.tab-button:hover {
+    background-color: #f8f9fa;
+    color: #0066cc;
+}
+
+.tab-button.active {
+    color: #0066cc;
+    border-bottom-color: #0066cc;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Settings Sections */
+.settings-section {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.settings-section h2 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1.5rem;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+/* For Checkbox Groups */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: auto;
+}
+
+/* Theme Preview */
+.theme-preview {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-top: 1rem;
+    background-color: #f8f9fa;
+}
+
+.theme-preview h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.theme-preview-img {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    background-color: #fff;
+}
+
+.theme-preview-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.theme-info {
+    font-size: 0.9rem;
+}
+
+.theme-description {
+    margin-bottom: 0.5rem;
+}
+
+.theme-version,
+.theme-author {
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+/* Media Select */
+.media-select-wrapper {
+    margin-bottom: 0.5rem;
+}
+
+.media-preview {
+    background-color: #f8f9fa;
+    border: 1px dashed #ced4da;
+    border-radius: 4px;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.media-preview img {
+    max-width: 100%;
+    max-height: 150px;
+    margin-bottom: 0.5rem;
+}
+
+.select-media,
+.remove-media {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.9rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.select-media {
+    background-color: #fff;
+    color: #0066cc;
+    border: 1px solid #0066cc;
+}
+
+.remove-media {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Media Selection Modal Styles */
+.media-modal-content {
+    width: 90%;
+    max-width: 900px;
+    height: 80vh;
+    max-height: 700px;
+    display: flex;
+    flex-direction: column;
+}
+
+.media-modal-filters {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.media-modal-filters input {
+    flex-grow: 1;
+}
+
+.media-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    flex-grow: 1;
+    max-height: calc(80vh - 200px);
+}
+
+.modal-media-item {
+    position: relative;
+    padding-top: 75%; /* 4:3 aspect ratio */
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.modal-media-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-media-item.selected {
+    border-color: #0066cc;
+}
+
+.modal-media-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Modal Loading and Empty States */
+.modal-loading,
+.modal-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.modal-empty.hidden,
+.modal-loading.hidden {
+    display: none;
+}
+
+/* Spinner */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0, 102, 204, 0.3);
+    border-radius: 50%;
+    border-top-color: #0066cc;
+    animation: spin 1s ease-in-out infinite;
+    margin: 0 auto 1rem;
+}
+
+.spinner-small {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Code Input */
+.code-input {
+    font-family: "Menlo", "Monaco", "Courier New", monospace;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .settings-tabs {
+        flex-wrap: wrap;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+}
+
+/* Static Site Generator styles */
+.static-generate-btn-wrapper {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+#generateStaticBtn {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+#staticGeneratorStatus {
+    padding: 1rem;
+    border-radius: 4px;
+    background-color: #e8f4fd;
+    border: 1px solid #b8d8fb;
+    color: #0c5460;
+}
+
+#staticGeneratorStatus .progress {
+    height: 8px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#staticGeneratorStatus .progress-bar {
+    background-color: #0066cc;
+}
+
+#staticGeneratorResult {
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+#staticGeneratorResult.alert-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+#staticGeneratorResult.alert-danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+#staticGeneratorResult.alert-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
