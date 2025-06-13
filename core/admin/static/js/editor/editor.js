@@ -252,4 +252,15 @@ document.addEventListener("DOMContentLoaded", function () {
             })
         }
     }
+
+    document.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+            e.preventDefault()
+
+            // Use the ContentService method if available
+            if (window.contentService) {
+                window.contentService.handleKeyboardSave()
+            }
+        }
+    })
 })

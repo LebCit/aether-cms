@@ -367,6 +367,54 @@ export class ContentService {
     }
 
     /**
+     * Save based on content state and user intent
+     */
+    async handleKeyboardSave() {
+        const currentStatus = document.getElementById("status")?.value || "draft"
+        const hasUnsavedChanges = this.editorUI.unsavedChangesHandler?.hasUnsavedChanges
+
+        if (!hasUnsavedChanges) {
+            if (this.editorUI.titleInput && !this.editorUI.titleInput.value) {
+                this.showError("Title is required!", { position: "top-center" })
+                this.editorUI.titleInput.focus()
+                return
+            }
+
+            this.showInfo("No unsaved changes detected", { position: "top-center" })
+            return
+        }
+
+        if (this.itemId) {
+            // Existing content
+            if (currentStatus === "published") {
+                // For published content, maintain published status
+                this.showSuccess("Keyboard save: Updating published content", { position: "top-center" })
+                this.saveContent("published")
+            } else {
+                // For draft content, keep as draft
+                this.showSuccess("Keyboard save: Updating draft content", { position: "top-center" })
+                this.saveContent("draft")
+            }
+        } else {
+            // New content
+            const slug = this.editorUI.slugInput.value
+            const slugExists = await this.checkSlugExists(slug, this.itemId)
+
+            if (this.editorUI.titleInput && !this.editorUI.titleInput.value) {
+                this.showError("Title is required!", { position: "top-center" })
+                this.editorUI.titleInput.focus()
+                return
+            } else if (slugExists) {
+                this.showWarning("Duplicate: Slug Already Exists!", { position: "top-center" })
+                return
+            }
+
+            this.showSuccess("Keyboard save: Creating new content as draft", { position: "top-center" })
+            this.saveContent("draft")
+        }
+    }
+
+    /**
      * Temporarily remove the beforeunload event listener
      */
     removeBeforeUnloadListener() {
@@ -533,5 +581,127 @@ export class ContentService {
             console.error("Error formatting date:", error)
             return null
         }
+    }
+
+    /**
+     * Displays a customizable notification on the screen.
+     *
+     * @param {Object} [config={}] - Configuration for the notification.
+     * @param {string} [config.message="Notification"] - The text content of the notification.
+     * @param {string} [config.backgroundColor="#0066cc"] - Background color of the notification box.
+     * @param {string} [config.textColor="white"] - Text color inside the notification.
+     * @param {number} [config.duration=2000] - How long the notification stays visible (in milliseconds).
+     * @param {string} [config.position="top-right"] - Position of the notification. Options: "top-right", "top-left", "bottom-right", "bottom-left", "top-center", "bottom-center", "center".
+     */
+    showNotification({
+        message = "Notification",
+        backgroundColor = "#0066cc",
+        textColor = "white",
+        duration = 2000,
+        position = "top-right",
+    } = {}) {
+        // Create the notification DOM element
+        const notification = document.createElement("div")
+
+        // Define CSS positioning for various locations
+        const positions = {
+            "top-right": "top: 20px; right: 20px;",
+            "top-left": "top: 20px; left: 20px;",
+            "bottom-right": "bottom: 20px; right: 20px;",
+            "bottom-left": "bottom: 20px; left: 20px;",
+            "top-center": "top: 20px; left: 50%; transform: translateX(-50%);",
+            "bottom-center": "bottom: 20px; left: 50%; transform: translateX(-50%);",
+            center: "top: 50%; left: 50%; transform: translate(-50%, -50%);",
+        }
+
+        // Apply styles to the notification
+        notification.style.cssText = `
+        position: fixed;
+        ${positions[position] || positions["top-right"]}
+        background: ${backgroundColor};
+        color: ${textColor};
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        z-index: 10001;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    `
+
+        // Set message text
+        notification.textContent = message
+
+        // Add to DOM
+        document.body.appendChild(notification)
+
+        // Fade in
+        setTimeout(() => (notification.style.opacity = "1"), 10)
+
+        // Fade out after `duration` and remove element
+        setTimeout(() => {
+            notification.style.opacity = "0"
+            setTimeout(() => notification.remove(), 300)
+        }, duration)
+    }
+
+    /**
+     * Displays an informational (teal) notification.
+     *
+     * @param {string} message - The message to display.
+     * @param {Object} [options={}] - Additional options for customization.
+     */
+    showInfo(message, options = {}) {
+        this.showNotification({
+            message,
+            backgroundColor: "#17a2b8", // Teal color
+            textColor: "white",
+            ...options,
+        })
+    }
+
+    /**
+     * Displays a success (green) notification.
+     *
+     * @param {string} message - The message to display.
+     * @param {Object} [options={}] - Additional options for customization.
+     */
+    showSuccess(message, options = {}) {
+        this.showNotification({
+            message,
+            backgroundColor: "#28a745", // Green color
+            textColor: "white",
+            ...options,
+        })
+    }
+
+    /**
+     * Displays a warning (yellow) notification.
+     *
+     * @param {string} message - The message to display.
+     * @param {Object} [options={}] - Additional options for customization.
+     */
+    showWarning(message, options = {}) {
+        this.showNotification({
+            message,
+            backgroundColor: "#ffc107", // Yellow color
+            textColor: "#000", // Black text for better contrast
+            ...options,
+        })
+    }
+
+    /**
+     * Displays an error (red) notification.
+     *
+     * @param {string} message - The message to display.
+     * @param {Object} [options={}] - Additional options for customization.
+     */
+    showError(message, options = {}) {
+        this.showNotification({
+            message,
+            backgroundColor: "#dc3545", // Red color
+            textColor: "white",
+            ...options,
+        })
     }
 }
